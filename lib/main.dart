@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'theme/app_theme.dart';
 import 'pages/showcase_page.dart';
 
+enum AppThemeMode { light, dark, warm, cool }
+
 void main() => runApp(const App());
 
 class App extends StatefulWidget {
@@ -15,19 +17,24 @@ class App extends StatefulWidget {
 }
 
 class AppState extends State<App> {
-  ThemeMode _themeMode = ThemeMode.light;
+  AppThemeMode _mode = AppThemeMode.light;
 
-  bool get isDark => _themeMode == ThemeMode.dark;
+  AppThemeMode get themeMode => _mode;
 
-  void toggleTheme(bool dark) =>
-      setState(() => _themeMode = dark ? ThemeMode.dark : ThemeMode.light);
+  void setTheme(AppThemeMode mode) =>
+      setState(() => _mode = mode);
+
+  ThemeData get _themeData => switch (_mode) {
+    AppThemeMode.light => AppTheme.light,
+    AppThemeMode.dark  => AppTheme.dark,
+    AppThemeMode.warm  => AppTheme.warm,
+    AppThemeMode.cool  => AppTheme.cool,
+  };
 
   @override
   Widget build(BuildContext context) => MaterialApp(
         debugShowCheckedModeBanner: false,
-        themeMode: _themeMode,
-        theme: AppTheme.light,
-        darkTheme: AppTheme.dark,
+        theme: _themeData,
         home: const ShowcasePage(),
       );
 }

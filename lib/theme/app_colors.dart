@@ -59,4 +59,48 @@ class AppColors {
   static const pinkBackgroundDark = Color(0xFF2D0D1A);
 
   static const orange = Color(0xFFF97316);
+
+  // ── Warm palette (Amber-tinted — no pure neutrals) ──────────────────
+  // Brand
+  static const warmPrimary50  = Color(0xFFFFFBEB);
+  static const warmPrimary200 = Color(0xFFFDE68A);
+  static const warmPrimary400 = Color(0xFFFBBF24);
+  static const warmPrimary600 = Color(0xFFD97706); // Amber-600
+  static const warmPrimary800 = Color(0xFF92400E); // Amber-800
+  static const warmPrimary900 = Color(0xFF78350F); // Amber-900
+
+  // Warm-tinted surfaces (never pure white/gray)
+  static const warmNeutral0   = Color(0xFFFFFDF7); // warm white
+  static const warmNeutral50  = Color(0xFFFAF5EE); // scaffold bg
+  static const warmNeutral200 = Color(0xFFE8D9C4); // border
+  static const warmNeutral400 = Color(0xFFA07850); // secondary text
+  static const warmNeutral600 = Color(0xFF5C4030);
+  static const warmNeutral900 = Color(0xFF1C0F07); // near-black
+
+  // Warm dark surfaces
+  static const warmDarkBackground = Color(0xFF150D05);
+  static const warmDarkCard       = Color(0xFF2A1A0C);
+  static const warmDarkBorder     = Color(0xFF443020);
+
+  // ── Cool palette (Cyan-tinted — no pure neutrals) ────────────────────
+  // Brand
+  static const coolPrimary50  = Color(0xFFECFEFF);
+  static const coolPrimary200 = Color(0xFFA5F3FC);
+  static const coolPrimary400 = Color(0xFF22D3EE);
+  static const coolPrimary600 = Color(0xFF0891B2); // Cyan-600
+  static const coolPrimary800 = Color(0xFF155E75); // Cyan-800
+  static const coolPrimary900 = Color(0xFF083344); // Cyan-900
+
+  // Cool-tinted surfaces (never pure white/gray)
+  static const coolNeutral0   = Color(0xFFF8FBFF); // cool white
+  static const coolNeutral50  = Color(0xFFEEF4FF); // scaffold bg
+  static const coolNeutral200 = Color(0xFFC4D4E8); // border
+  static const coolNeutral400 = Color(0xFF6A8FB0); // secondary text
+  static const coolNeutral600 = Color(0xFF2A4A6E);
+  static const coolNeutral900 = Color(0xFF060F1E); // near-black
+
+  // Cool dark surfaces
+  static const coolDarkBackground = Color(0xFF050C1A);
+  static const coolDarkCard       = Color(0xFF0F1E35);
+  static const coolDarkBorder     = Color(0xFF1A3050);
 }

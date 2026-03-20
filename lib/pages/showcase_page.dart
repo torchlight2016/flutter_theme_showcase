@@ -43,27 +43,11 @@ class _ShowcasePageState extends State<ShowcasePage> {
               _buildQuickActions(), const SizedBox(height: 22),
               _buildSectionLabel('최근 거래', '전체보기'), const SizedBox(height: 8),
               _buildTransactionList(), const SizedBox(height: 24),
-              _buildSectionLabel('Primary blue', null), const SizedBox(height: 8),
-              _buildColorRamp([
-                (AppColors.primary50,  '50',  AppColors.primary800),
-                (AppColors.primary100, '100', AppColors.primary800),
-                (AppColors.primary200, '200', AppColors.primary800),
-                (AppColors.primary400, '400', AppColors.neutral0),
-                (AppColors.primary600, '600', AppColors.neutral0),
-                (AppColors.primary800, '800', AppColors.neutral0),
-                (AppColors.primary900, '900', AppColors.primary200),
-              ]),
+              _buildSectionLabel(_primaryRampLabel, null), const SizedBox(height: 8),
+              _buildColorRamp(_primaryRamp),
               const SizedBox(height: 20),
               _buildSectionLabel('Neutral', null), const SizedBox(height: 8),
-              _buildColorRamp([
-                (_isDark ? AppColors.darkBackground : AppColors.neutral0,   '0',   _cs.onSurfaceVariant),
-                (_isDark ? AppColors.darkSurface    : AppColors.neutral50,  '50',  _cs.onSurfaceVariant),
-                (_isDark ? AppColors.darkCard       : AppColors.neutral200, '200', _cs.onSurface),
-                (AppColors.neutral400, '400', AppColors.neutral0),
-                (AppColors.neutral600, '600', AppColors.neutral0),
-                (AppColors.neutral800, '800', AppColors.neutral0),
-                (AppColors.neutral900, '900', AppColors.neutral400),
-              ]),
+              _buildColorRamp(_neutralRamp),
               const SizedBox(height: 20),
               _buildSectionLabel('Semantic', null), const SizedBox(height: 8),
               _buildSemanticGrid(), const SizedBox(height: 20),
@@ -107,38 +91,124 @@ class _ShowcasePageState extends State<ShowcasePage> {
     ],
   );
 
-  Widget _buildThemeToggle() => GestureDetector(
-    onTap: () => App.of(context).toggleTheme(!_isDark),
-    child: AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+  Widget _buildThemeToggle() {
+    final current = App.of(context).themeMode;
+    return Container(
+      padding: const EdgeInsets.all(3),
       decoration: BoxDecoration(
-        // cs.surface = neutral0 (light) / darkCard (dark) — stands out from scaffold
         color: _cs.surface,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         border: Border.all(color: _cs.outline, width: 0.5),
       ),
-      child: Row(mainAxisSize: MainAxisSize.min, children: [
-        AnimatedSwitcher(
-          duration: const Duration(milliseconds: 300),
-          transitionBuilder: (child, animation) => RotationTransition(
-            turns: Tween(begin: 0.5, end: 1.0).animate(animation),
-            child: FadeTransition(opacity: animation, child: child),
-          ),
-          child: Icon(
-            _isDark ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
-            key: ValueKey(_isDark),
-            size: 16,
-            color: _isDark ? _sem.warning : _cs.primary,
-          ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: AppThemeMode.values
+            .map((m) => _buildThemeChip(m, current))
+            .toList(),
+      ),
+    );
+  }
+
+  Widget _buildThemeChip(AppThemeMode mode, AppThemeMode current) {
+    final isSelected = mode == current;
+    final (IconData icon, Color activeColor) = switch (mode) {
+      AppThemeMode.light => (Icons.light_mode_rounded,  _cs.primary),
+      AppThemeMode.dark  => (Icons.dark_mode_rounded,   _cs.onSurface),
+      AppThemeMode.warm  => (Icons.wb_sunny_rounded,    _sem.warning),
+      AppThemeMode.cool  => (Icons.ac_unit_rounded,     _sem.info),
+    };
+    return GestureDetector(
+      onTap: () => App.of(context).setTheme(mode),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        decoration: BoxDecoration(
+          color: isSelected ? _cs.primaryContainer : Colors.transparent,
+          borderRadius: BorderRadius.circular(20),
         ),
-        const SizedBox(width: 6),
-        Text(_isDark ? 'Dark' : 'Light',
-            style: _tt.labelMedium?.copyWith(color: _cs.onSurface)),
-      ]),
-    ),
-  );
+        child: Icon(
+          icon,
+          size: 16,
+          color: isSelected ? activeColor : _cs.onSurfaceVariant,
+        ),
+      ),
+    );
+  }
+
+  // ── Theme-aware color ramps ───────────────────────────────────────────
+
+  String get _primaryRampLabel => switch (App.of(context).themeMode) {
+    AppThemeMode.warm => 'Primary amber',
+    AppThemeMode.cool => 'Primary cyan',
+    _                 => 'Primary blue',
+  };
+
+  List<(Color, String, Color)> get _primaryRamp =>
+      switch (App.of(context).themeMode) {
+    AppThemeMode.warm => [
+      (AppColors.warmPrimary50,  '50',  AppColors.warmPrimary800),
+      (AppColors.warmPrimary200, '200', AppColors.warmPrimary800),
+      (AppColors.warmPrimary400, '400', AppColors.warmNeutral0),
+      (AppColors.warmPrimary600, '600', AppColors.warmNeutral0),
+      (AppColors.warmPrimary800, '800', AppColors.warmNeutral0),
+      (AppColors.warmPrimary900, '900', AppColors.warmPrimary200),
+    ],
+    AppThemeMode.cool => [
+      (AppColors.coolPrimary50,  '50',  AppColors.coolPrimary800),
+      (AppColors.coolPrimary200, '200', AppColors.coolPrimary800),
+      (AppColors.coolPrimary400, '400', AppColors.coolNeutral0),
+      (AppColors.coolPrimary600, '600', AppColors.coolNeutral0),
+      (AppColors.coolPrimary800, '800', AppColors.coolNeutral0),
+      (AppColors.coolPrimary900, '900', AppColors.coolPrimary200),
+    ],
+    _ => [
+      (AppColors.primary50,  '50',  AppColors.primary800),
+      (AppColors.primary100, '100', AppColors.primary800),
+      (AppColors.primary200, '200', AppColors.primary800),
+      (AppColors.primary400, '400', AppColors.neutral0),
+      (AppColors.primary600, '600', AppColors.neutral0),
+      (AppColors.primary800, '800', AppColors.neutral0),
+      (AppColors.primary900, '900', AppColors.primary200),
+    ],
+  };
+
+  List<(Color, String, Color)> get _neutralRamp =>
+      switch (App.of(context).themeMode) {
+    AppThemeMode.warm => [
+      (AppColors.warmNeutral0,   '0',   _cs.onSurfaceVariant),
+      (AppColors.warmNeutral50,  '50',  _cs.onSurfaceVariant),
+      (AppColors.warmNeutral200, '200', _cs.onSurface),
+      (AppColors.warmNeutral400, '400', AppColors.warmNeutral0),
+      (AppColors.warmNeutral600, '600', AppColors.warmNeutral0),
+      (AppColors.warmNeutral900, '900', AppColors.warmNeutral400),
+    ],
+    AppThemeMode.cool => [
+      (AppColors.coolNeutral0,   '0',   _cs.onSurfaceVariant),
+      (AppColors.coolNeutral50,  '50',  _cs.onSurfaceVariant),
+      (AppColors.coolNeutral200, '200', _cs.onSurface),
+      (AppColors.coolNeutral400, '400', AppColors.coolNeutral0),
+      (AppColors.coolNeutral600, '600', AppColors.coolNeutral0),
+      (AppColors.coolNeutral900, '900', AppColors.coolNeutral400),
+    ],
+    AppThemeMode.dark => [
+      (AppColors.darkBackground, '0',   _cs.onSurfaceVariant),
+      (AppColors.darkSurface,    '50',  _cs.onSurfaceVariant),
+      (AppColors.darkCard,       '200', _cs.onSurface),
+      (AppColors.neutral400,     '400', AppColors.neutral0),
+      (AppColors.neutral600,     '600', AppColors.neutral0),
+      (AppColors.neutral800,     '800', AppColors.neutral0),
+      (AppColors.neutral900,     '900', AppColors.neutral400),
+    ],
+    _ => [
+      (AppColors.neutral0,   '0',   _cs.onSurfaceVariant),
+      (AppColors.neutral50,  '50',  _cs.onSurfaceVariant),
+      (AppColors.neutral200, '200', _cs.onSurface),
+      (AppColors.neutral400, '400', AppColors.neutral0),
+      (AppColors.neutral600, '600', AppColors.neutral0),
+      (AppColors.neutral800, '800', AppColors.neutral0),
+      (AppColors.neutral900, '900', AppColors.neutral400),
+    ],
+  };
 
   Widget _buildBalanceCard() => Container(
     padding: const EdgeInsets.all(24),
@@ -469,7 +539,8 @@ class _ShowcasePageState extends State<ShowcasePage> {
       // DividerThemeData handles color/thickness; height is spacing
       const Divider(height: 20),
       _buildSwitchRow('다크 모드', _isDark,
-          (value) => App.of(context).toggleTheme(value)),
+          (value) => App.of(context).setTheme(
+              value ? AppThemeMode.dark : AppThemeMode.light)),
     ]),
   );
 

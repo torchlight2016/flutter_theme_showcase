@@ -60,6 +60,44 @@ class SemanticColors extends ThemeExtension<SemanticColors> {
     gradientEnd: AppColors.primary800,
   );
 
+  /// Warm theme — containers tinted amber/orange
+  static const warm = SemanticColors(
+    success: AppColors.success,
+    successContainer: Color(0xFFF0FDF0),
+    onSuccessContainer: Color(0xFF166534),
+    warning: AppColors.warning,
+    warningContainer: Color(0xFFFFF8E1),
+    onWarningContainer: Color(0xFF92400E),
+    info: AppColors.info,
+    infoContainer: Color(0xFFFEF3C7), // amber-tinted info container
+    onInfoContainer: AppColors.warmPrimary800,
+    pink: AppColors.pink,
+    pinkContainer: AppColors.pinkBackground,
+    onPinkContainer: AppColors.pinkDark,
+    orange: AppColors.orange,
+    gradientStart: AppColors.warmPrimary600,
+    gradientEnd: AppColors.warmPrimary800,
+  );
+
+  /// Cool theme — containers tinted cyan/slate
+  static const cool = SemanticColors(
+    success: AppColors.success,
+    successContainer: Color(0xFFECFDF5),
+    onSuccessContainer: Color(0xFF065F46),
+    warning: AppColors.warning,
+    warningContainer: Color(0xFFFFF8E1),
+    onWarningContainer: Color(0xFF92400E),
+    info: AppColors.info,
+    infoContainer: Color(0xFFE0F9FC), // cyan-tinted info container
+    onInfoContainer: AppColors.coolPrimary800,
+    pink: AppColors.pink,
+    pinkContainer: AppColors.pinkBackground,
+    onPinkContainer: AppColors.pinkDark,
+    orange: AppColors.orange,
+    gradientStart: AppColors.coolPrimary600,
+    gradientEnd: AppColors.coolPrimary800,
+  );
+
   static const dark = SemanticColors(
     success: AppColors.success,
     successContainer: AppColors.successBackgroundDark,

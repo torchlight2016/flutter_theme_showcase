@@ -39,6 +39,78 @@ class AppTheme {
     semanticColors: SemanticColors.light,
   );
 
+  /// Warm theme — Amber brand, every surface carries a warm amber tint.
+  /// Principle: no pure neutrals; shadows and borders lean into the same warmth.
+  static ThemeData get warm => _buildTheme(
+    colorScheme: const ColorScheme.light(
+      primary: AppColors.warmPrimary600,
+      onPrimary: Colors.white,
+      primaryContainer: AppColors.warmPrimary50,
+      onPrimaryContainer: AppColors.warmPrimary800,
+      secondary: AppColors.orange,
+      onSecondary: Colors.white,
+      secondaryContainer: Color(0xFFFFEDD5),
+      onSecondaryContainer: Color(0xFF7C2D12),
+      tertiary: AppColors.pink,
+      onTertiary: Colors.white,
+      tertiaryContainer: AppColors.pinkBackground,
+      onTertiaryContainer: AppColors.pinkDark,
+      error: AppColors.error,
+      onError: Colors.white,
+      errorContainer: AppColors.errorBackground,
+      onErrorContainer: Color(0xFF991B1B),
+      surface: AppColors.warmNeutral0,
+      onSurface: AppColors.warmNeutral900,
+      onSurfaceVariant: AppColors.warmNeutral400,
+      outline: AppColors.warmNeutral200,
+      outlineVariant: AppColors.warmNeutral200,
+    ),
+    scaffoldBackgroundColor: AppColors.warmNeutral50,
+    inputFillColor: AppColors.warmNeutral0,
+    switchInactiveTrackColor: AppColors.warmNeutral200,
+    switchInactiveThumbColor: AppColors.warmNeutral0,
+    navBackgroundColor: AppColors.warmNeutral0,
+    navActiveColor: AppColors.warmPrimary600,
+    navInactiveColor: AppColors.warmNeutral400,
+    semanticColors: SemanticColors.warm,
+  );
+
+  /// Cool theme — Cyan brand, every surface carries a cool blue-slate tint.
+  /// Principle: no pure neutrals; shadows and borders lean into the same coolness.
+  static ThemeData get cool => _buildTheme(
+    colorScheme: const ColorScheme.light(
+      primary: AppColors.coolPrimary600,
+      onPrimary: Colors.white,
+      primaryContainer: AppColors.coolPrimary50,
+      onPrimaryContainer: AppColors.coolPrimary800,
+      secondary: Color(0xFF0284C7),
+      onSecondary: Colors.white,
+      secondaryContainer: Color(0xFFE0F2FE),
+      onSecondaryContainer: Color(0xFF0C4A6E),
+      tertiary: AppColors.purple,
+      onTertiary: Colors.white,
+      tertiaryContainer: AppColors.purpleBackground,
+      onTertiaryContainer: AppColors.purpleDark,
+      error: AppColors.error,
+      onError: Colors.white,
+      errorContainer: AppColors.errorBackground,
+      onErrorContainer: Color(0xFF991B1B),
+      surface: AppColors.coolNeutral0,
+      onSurface: AppColors.coolNeutral900,
+      onSurfaceVariant: AppColors.coolNeutral400,
+      outline: AppColors.coolNeutral200,
+      outlineVariant: AppColors.coolNeutral200,
+    ),
+    scaffoldBackgroundColor: AppColors.coolNeutral50,
+    inputFillColor: AppColors.coolNeutral0,
+    switchInactiveTrackColor: AppColors.coolNeutral200,
+    switchInactiveThumbColor: AppColors.coolNeutral0,
+    navBackgroundColor: AppColors.coolNeutral0,
+    navActiveColor: AppColors.coolPrimary600,
+    navInactiveColor: AppColors.coolNeutral400,
+    semanticColors: SemanticColors.cool,
+  );
+
   static ThemeData get dark => _buildTheme(
     colorScheme: const ColorScheme.dark(
       primary: AppColors.primary400,
